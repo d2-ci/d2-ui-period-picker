@@ -43,7 +43,7 @@ var createDayBasedPeriodFieldUpdater = exports.createDayBasedPeriodFieldUpdater 
     var _ref;
 
     var date = new Date(startDate);
-    return _ref = {}, (0, _defineProperty3.default)(_ref, _distinctTypes.DAY, date.getDay().toString()), (0, _defineProperty3.default)(_ref, _distinctTypes.MONTH, (date.getMonth() + 1).toString()), (0, _defineProperty3.default)(_ref, _distinctTypes.YEAR, date.getFullYear().toString()), _ref;
+    return _ref = {}, (0, _defineProperty3.default)(_ref, _distinctTypes.DAY, date.getDate().toString()), (0, _defineProperty3.default)(_ref, _distinctTypes.MONTH, (date.getMonth() + 1).toString()), (0, _defineProperty3.default)(_ref, _distinctTypes.YEAR, date.getFullYear().toString()), _ref;
 };
 
 var createWeekBasedPeriodFieldUpdater = exports.createWeekBasedPeriodFieldUpdater = function createWeekBasedPeriodFieldUpdater(periodId) {

@@ -177,7 +177,7 @@ var PeriodPicker = function (_PureComponent) {
                                 _context.t0 = _context['catch'](1);
 
                                 console.error(_context.t0);
-                                errorText = _d2I18n2.default.t('There was a problem fetching the period types');
+                                errorText = _d2I18n2.default.t('Could not load period types');
 
                                 this.setState({ errorText: errorText, isLoading: false });
 
@@ -246,9 +246,10 @@ var PeriodPicker = function (_PureComponent) {
         key: 'updateStateFromPeriodId',
         value: function updateStateFromPeriodId() {
             var periodId = this.props.value;
-            var periodType = '';
-            var errorText = '';
+            var periodType = this.state.periodType;
+            var errorText = this.state.errorText;
             var periodFieldsUpdateObject = {};
+
             if (periodId) {
                 try {
                     var period = (0, _parser2.default)(periodId);
