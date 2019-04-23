@@ -63,7 +63,7 @@ var periodTypeLookup = new _map2.default([['Daily', {
     getPeriodFields: function getPeriodFields() {
         return weeklyOptionList;
     },
-    crxeatePeriodFieldUpdater: _helpers.createWeekBasedPeriodFieldUpdater,
+    createPeriodFieldUpdater: _helpers.createWeekBasedPeriodFieldUpdater,
     getError: _helpers.getInvalidWeekNumberError
 }], ['WeeklyThursday', {
     label: _d2I18n2.default.t('Weekly Thursday'),
@@ -123,7 +123,7 @@ var periodTypeLookup = new _map2.default([['Daily', {
     label: _d2I18n2.default.t('Monthly'),
     // YYYYMM
     getPeriodId: function getPeriodId(state) {
-        return state[_distinctTypes.YEAR] + state[_distinctTypes.MONTH];
+        return state[_distinctTypes.YEAR] + (0, _helpers.zeroPad)(state[_distinctTypes.MONTH]);
     },
     hasRequiredValues: function hasRequiredValues(state) {
         return (0, _helpers.hasValues)(state, [_distinctTypes.MONTH, _distinctTypes.YEAR]);
@@ -151,7 +151,7 @@ var periodTypeLookup = new _map2.default([['Daily', {
     createPeriodFieldUpdater: function createPeriodFieldUpdater(periodId) {
         var _ref3;
 
-        return _ref3 = {}, (0, _defineProperty3.default)(_ref3, _distinctTypes.BI_MONTH, periodId.substr(4, 2)), (0, _defineProperty3.default)(_ref3, _distinctTypes.YEAR, (0, _helpers.getYearFromId)(periodId)), _ref3;
+        return _ref3 = {}, (0, _defineProperty3.default)(_ref3, _distinctTypes.BI_MONTH, parseInt(periodId.substr(4, 2)).toString()), (0, _defineProperty3.default)(_ref3, _distinctTypes.YEAR, (0, _helpers.getYearFromId)(periodId)), _ref3;
     }
 }], ['Quarterly', {
     label: _d2I18n2.default.t('Quarterly'),

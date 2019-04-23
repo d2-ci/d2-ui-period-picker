@@ -32,7 +32,7 @@ var zeroPad = exports.zeroPad = function zeroPad(str) {
 };
 
 var getMonthFromId = exports.getMonthFromId = function getMonthFromId(periodId) {
-    return periodId.substr(4, 2);
+    return parseInt(periodId.substr(4, 2)).toString();
 };
 
 var getYearFromId = exports.getYearFromId = function getYearFromId(periodId) {
@@ -49,7 +49,7 @@ var createDayBasedPeriodFieldUpdater = exports.createDayBasedPeriodFieldUpdater 
 var createWeekBasedPeriodFieldUpdater = exports.createWeekBasedPeriodFieldUpdater = function createWeekBasedPeriodFieldUpdater(periodId) {
     var _ref2;
 
-    return _ref2 = {}, (0, _defineProperty3.default)(_ref2, _distinctTypes.WEEK, periodId.split('W')[1]), (0, _defineProperty3.default)(_ref2, _distinctTypes.YEAR, getYearFromId(periodId)), _ref2;
+    return _ref2 = {}, (0, _defineProperty3.default)(_ref2, _distinctTypes.WEEK, periodId.substring(periodId.lastIndexOf('W') + 1)), (0, _defineProperty3.default)(_ref2, _distinctTypes.YEAR, getYearFromId(periodId)), _ref2;
 };
 
 var createSixMonthsBasedPeriodFieldUpdater = exports.createSixMonthsBasedPeriodFieldUpdater = function createSixMonthsBasedPeriodFieldUpdater(periodId) {
