@@ -247,6 +247,17 @@ var periodTypeLookup = new _map2.default([['Daily', {
         return yearlyOptionList;
     },
     createPeriodFieldUpdater: _helpers.createYearBasedPeriodFieldUpdater
+}], ['FinancialNov', {
+    label: _d2I18n2.default.t('Financial year starting in November'),
+    // YYYY"Oct"
+    getPeriodId: function getPeriodId(state) {
+        return state[_distinctTypes.YEAR] + 'Nov';
+    },
+    hasRequiredValues: _helpers.hasYearBasedValues,
+    getPeriodFields: function getPeriodFields() {
+        return yearlyOptionList;
+    },
+    createPeriodFieldUpdater: _helpers.createYearBasedPeriodFieldUpdater
 }]]);
 
 periodTypeLookup.forEach(function (periodType) {
