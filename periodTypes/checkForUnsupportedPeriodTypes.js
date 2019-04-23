@@ -5,7 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = checkForUnsupportedPeriodTypes;
 
-var _periodTypeMap = require('./periodTypeMap');
+var _lookup = require('./lookup');
+
+var _lookup2 = _interopRequireDefault(_lookup);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function checkForUnsupportedPeriodTypes(periodTypes) {
     if (process.env.NODE_ENV !== 'development') {
@@ -14,7 +18,7 @@ function checkForUnsupportedPeriodTypes(periodTypes) {
 
     var unsupportedPeriodTypes = periodTypes.filter(function (_ref) {
         var name = _ref.name;
-        return !_periodTypeMap.periodTypeMap.get(name);
+        return !_lookup2.default.get(name);
     }).map(function (_ref2) {
         var name = _ref2.name;
         return name;

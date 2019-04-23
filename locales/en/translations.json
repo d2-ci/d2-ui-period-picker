@@ -2,6 +2,9 @@
     "There was a problem fetching the period types": "",
     "Invalid period detected": "",
     "Period type": "",
+    "Day number too high for current month": "",
+    "Week number too high for current year": "",
+    "Bi-week number too high for current year": "",
     "Daily": "",
     "Weekly": "",
     "Weekly Wednesday": "",
@@ -28,8 +31,5 @@
     "Six month period": "",
     "Six month period - April": "",
     "Six month period - November": "",
-    "Year": "",
-    "Day number too high for current month": "",
-    "Week number too high for current year": "",
-    "Bi-week number too high for current year": ""
+    "Year": ""
 }

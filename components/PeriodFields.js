@@ -22,6 +22,10 @@ var _Select = require('./Select');
 
 var _Select2 = _interopRequireDefault(_Select);
 
+var _lookup = require('../periodTypes/lookup');
+
+var _lookup2 = _interopRequireDefault(_lookup);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var styles = function styles(theme) {
@@ -34,10 +38,13 @@ var styles = function styles(theme) {
 };
 
 var PeriodFields = function PeriodFields(_ref) {
-    var periodFields = _ref.periodFields,
+    var periodType = _ref.periodType,
         onChange = _ref.onChange,
         getValue = _ref.getValue,
         classes = _ref.classes;
+
+    var periodFields = _lookup2.default.get(periodType).getPeriodFields();
+
     return _react2.default.createElement(
         'div',
         { className: classes.flexContainer },
@@ -55,7 +62,7 @@ var PeriodFields = function PeriodFields(_ref) {
 };
 
 PeriodFields.propTypes = {
-    periodFields: _propTypes2.default.object.isRequired,
+    periodType: _propTypes2.default.string.isRequired,
     onChange: _propTypes2.default.func.isRequired,
     getValue: _propTypes2.default.func.isRequired,
     classes: _propTypes2.default.object.isRequired
