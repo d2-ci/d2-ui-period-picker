@@ -18,9 +18,9 @@ var _d2I18n2 = _interopRequireDefault(_d2I18n);
 
 var _distinctTypes = require('./distinctTypes');
 
-var _options = require('./options');
-
 var _helpers = require('./helpers');
+
+var _options = require('./options');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

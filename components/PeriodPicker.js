@@ -40,33 +40,33 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
 var _d2I18n = require('@dhis2/d2-i18n');
 
 var _d2I18n2 = _interopRequireDefault(_d2I18n);
+
+var _styles = require('@material-ui/core/styles');
 
 var _parser = require('d2/period/parser');
 
 var _parser2 = _interopRequireDefault(_parser);
 
-var _styles = require('@material-ui/core/styles');
+var _propTypes = require('prop-types');
 
-var _lookup = require('../periodTypes/lookup');
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _lookup2 = _interopRequireDefault(_lookup);
+var _react = require('react');
 
-var _distinctTypes = require('../periodTypes/distinctTypes');
+var _react2 = _interopRequireDefault(_react);
 
 var _checkForUnsupportedPeriodTypes = require('../periodTypes/checkForUnsupportedPeriodTypes');
 
 var _checkForUnsupportedPeriodTypes2 = _interopRequireDefault(_checkForUnsupportedPeriodTypes);
+
+var _distinctTypes = require('../periodTypes/distinctTypes');
+
+var _lookup = require('../periodTypes/lookup');
+
+var _lookup2 = _interopRequireDefault(_lookup);
 
 var _Form = require('./Form');
 

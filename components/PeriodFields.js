@@ -8,23 +8,23 @@ var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
+var _styles = require('@material-ui/core/styles');
 
 var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _styles = require('@material-ui/core/styles');
+var _react = require('react');
 
-var _Select = require('./Select');
-
-var _Select2 = _interopRequireDefault(_Select);
+var _react2 = _interopRequireDefault(_react);
 
 var _lookup = require('../periodTypes/lookup');
 
 var _lookup2 = _interopRequireDefault(_lookup);
+
+var _Select = require('./Select');
+
+var _Select2 = _interopRequireDefault(_Select);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

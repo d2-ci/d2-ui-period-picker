@@ -4,14 +4,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
 var _d2I18n = require('@dhis2/d2-i18n');
 
 var _d2I18n2 = _interopRequireDefault(_d2I18n);
@@ -25,6 +17,14 @@ var _styles = require('@material-ui/core/styles');
 var _parser = require('d2/period/parser');
 
 var _parser2 = _interopRequireDefault(_parser);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 var _PeriodFields = require('./PeriodFields');
 

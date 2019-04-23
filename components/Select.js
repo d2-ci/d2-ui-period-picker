@@ -8,14 +8,6 @@ var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
 var _FormControl = require('@material-ui/core/FormControl');
 
 var _FormControl2 = _interopRequireDefault(_FormControl);
@@ -24,15 +16,23 @@ var _InputLabel = require('@material-ui/core/InputLabel');
 
 var _InputLabel2 = _interopRequireDefault(_InputLabel);
 
-var _Select = require('@material-ui/core/Select');
-
-var _Select2 = _interopRequireDefault(_Select);
-
 var _MenuItem = require('@material-ui/core/MenuItem');
 
 var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
+var _Select = require('@material-ui/core/Select');
+
+var _Select2 = _interopRequireDefault(_Select);
+
 var _styles = require('@material-ui/core/styles');
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
