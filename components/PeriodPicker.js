@@ -56,10 +56,6 @@ var _parser = require('d2/period/parser');
 
 var _parser2 = _interopRequireDefault(_parser);
 
-var _FormHelperText = require('@material-ui/core/FormHelperText');
-
-var _FormHelperText2 = _interopRequireDefault(_FormHelperText);
-
 var _styles = require('@material-ui/core/styles');
 
 var _lookup = require('../periodTypes/lookup');
@@ -72,23 +68,25 @@ var _checkForUnsupportedPeriodTypes = require('../periodTypes/checkForUnsupporte
 
 var _checkForUnsupportedPeriodTypes2 = _interopRequireDefault(_checkForUnsupportedPeriodTypes);
 
-var _Select = require('./Select');
+var _Form = require('./Form');
 
-var _Select2 = _interopRequireDefault(_Select);
+var _Form2 = _interopRequireDefault(_Form);
 
-var _PeriodFields = require('./PeriodFields');
+var _Loader = require('./Loader');
 
-var _PeriodFields2 = _interopRequireDefault(_PeriodFields);
+var _Loader2 = _interopRequireDefault(_Loader);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var styles = function styles(theme) {
     return {
-        error: {
-            color: theme.colors.negative
-        },
-        helper: {
-            margin: 8
+        label: {
+            fontSize: '1.2rem',
+            fontWeight: '300',
+            color: 'rgba(0, 0, 0, 0.87)',
+            padding: '16px 8px 0px',
+            margin: '0px',
+            flex: '1 0 120px'
         }
     };
 };
@@ -112,7 +110,7 @@ var PeriodPicker = function (_PureComponent) {
         }
 
         return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = PeriodPicker.__proto__ || (0, _getPrototypeOf2.default)(PeriodPicker)).call.apply(_ref, [this].concat(args))), _this), _this.state = (_this$state = {
-            ready: false,
+            isLoading: true,
             periodType: '',
             errorText: ''
         }, (0, _defineProperty3.default)(_this$state, _distinctTypes.DAY, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.QUARTER, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.SIX_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.YEAR, ''), _this$state), _this.api = _this.props.d2.Api.getApi(), _this.onPeriodTypeChange = function (_ref2) {
@@ -155,27 +153,40 @@ var PeriodPicker = function (_PureComponent) {
         key: 'componentDidMount',
         value: function () {
             var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+                var errorText;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 if (periodTypes) {
-                                    _context.next = 3;
+                                    _context.next = 12;
                                     break;
                                 }
 
-                                _context.next = 3;
+                                _context.prev = 1;
+                                _context.next = 4;
                                 return this.fetchPeriodTypes();
 
-                            case 3:
-                                this.updateStateFromPeriodId();
-
                             case 4:
+                                this.updateStateFromPeriodId();
+                                _context.next = 12;
+                                break;
+
+                            case 7:
+                                _context.prev = 7;
+                                _context.t0 = _context['catch'](1);
+
+                                console.error(_context.t0);
+                                errorText = _d2I18n2.default.t('There was a problem fetching the period types');
+
+                                this.setState({ errorText: errorText, isLoading: false });
+
+                            case 12:
                             case 'end':
                                 return _context.stop();
                         }
                     }
-                }, _callee, this);
+                }, _callee, this, [[1, 7]]);
             }));
 
             function componentDidMount() {
@@ -200,11 +211,10 @@ var PeriodPicker = function (_PureComponent) {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
-                                _context2.prev = 0;
-                                _context2.next = 3;
+                                _context2.next = 2;
                                 return this.api.get('periodTypes');
 
-                            case 3:
+                            case 2:
                                 response = _context2.sent;
 
                                 periodTypes = response.periodTypes.reduce(function (acc, _ref6) {
@@ -217,24 +227,13 @@ var PeriodPicker = function (_PureComponent) {
                                     return acc;
                                 }, {});
                                 (0, _checkForUnsupportedPeriodTypes2.default)(response.periodTypes);
-                                _context2.next = 12;
-                                break;
 
-                            case 8:
-                                _context2.prev = 8;
-                                _context2.t0 = _context2['catch'](0);
-
-                                console.error(_context2.t0);
-                                this.setState({
-                                    errorText: _d2I18n2.default.t('There was a problem fetching the period types')
-                                });
-
-                            case 12:
+                            case 5:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this, [[0, 8]]);
+                }, _callee2, this);
             }));
 
             function fetchPeriodTypes() {
@@ -249,58 +248,49 @@ var PeriodPicker = function (_PureComponent) {
             var periodId = this.props.value;
             var periodType = '';
             var errorText = '';
-            var updateObject = {};
+            var periodFieldsUpdateObject = {};
             if (periodId) {
                 try {
                     var period = (0, _parser2.default)(periodId);
                     periodType = period.type;
-                    updateObject = _lookup2.default.get(periodType).createPeriodFieldUpdater(period.id, period.startDate);
+                    periodFieldsUpdateObject = _lookup2.default.get(periodType).createPeriodFieldUpdater(period.id, period.startDate);
                 } catch (error) {
                     // This should only be triggered when an invalid value is set via props
                     console.error(error);
-                    errorText = _d2I18n2.default.t('Invalid period detected');
+                    errorText = error.message;
                 }
             }
-            this.setState((0, _extends4.default)({ periodType: periodType, errorText: errorText, ready: true }, updateObject));
+            this.setState((0, _extends4.default)({
+                periodType: periodType,
+                errorText: errorText,
+                isLoading: false
+            }, periodFieldsUpdateObject));
+        }
+    }, {
+        key: 'renderFormFields',
+        value: function renderFormFields() {
+            return;
         }
     }, {
         key: 'render',
         value: function render() {
-            if (!periodTypes) {
-                return _react2.default.createElement(
-                    'h1',
-                    null,
-                    'Loading...'
-                );
-            }
-
             return _react2.default.createElement(
                 _react.Fragment,
                 null,
-                _react2.default.createElement(_Select2.default, {
-                    name: 'periodType',
-                    label: _d2I18n2.default.t('Period type'),
-                    value: this.state.periodType,
-                    onChange: this.onPeriodTypeChange,
-                    options: periodTypes
-                }),
-                this.state.periodType && _react2.default.createElement(_PeriodFields2.default, {
-                    periodType: this.state.periodType,
-                    onChange: this.onPeriodFieldChange,
-                    getValue: this.getValueForPeriodFieldType
-                }),
-                this.state.errorText && _react2.default.createElement(
-                    _FormHelperText2.default,
-                    {
-                        className: this.props.classes.error + '  ' + this.props.classes.helper
-                    },
-                    this.state.errorText
+                this.props.label && _react2.default.createElement(
+                    'h4',
+                    { className: this.props.classes.label },
+                    this.props.label
                 ),
-                this.props.value && !this.state.errorText && _react2.default.createElement(
-                    _FormHelperText2.default,
-                    { className: this.props.classes.helper },
-                    (0, _parser2.default)(this.props.value).name
-                )
+                this.state.isLoading ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(_Form2.default, {
+                    periodTypes: periodTypes,
+                    periodType: this.state.periodType,
+                    onPeriodTypeChange: this.onPeriodTypeChange,
+                    onPeriodFieldChange: this.onPeriodFieldChange,
+                    getFieldValue: this.getValueForPeriodFieldType,
+                    errorText: this.state.errorText,
+                    value: this.props.value
+                })
             );
         }
     }]);
@@ -309,9 +299,15 @@ var PeriodPicker = function (_PureComponent) {
 
 PeriodPicker.propTypes = {
     d2: _propTypes2.default.object.isRequired,
+    label: _propTypes2.default.string,
     value: _propTypes2.default.string,
     onChange: _propTypes2.default.func.isRequired,
     classes: _propTypes2.default.object.isRequired
+};
+
+PeriodPicker.defaultProps = {
+    label: '',
+    value: ''
 };
 
 exports.default = (0, _styles.withStyles)(styles)(PeriodPicker);
