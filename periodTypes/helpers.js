@@ -24,7 +24,7 @@ var _distinctTypes = require('./distinctTypes');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var neverAnError = exports.neverAnError = function neverAnError() {
-    return null;
+    return '';
 };
 
 var zeroPad = exports.zeroPad = function zeroPad(str) {
@@ -89,10 +89,7 @@ var getInvalidDayNumberError = exports.getInvalidDayNumberError = function getIn
 
     var daysInMonth = new Date(year, month, 0).getDate();
 
-    if (day <= daysInMonth) {
-        return null;
-    }
-    return _d2I18n2.default.t('Day number too high for current month');
+    return day > daysInMonth ? _d2I18n2.default.t('Day number too high for current month') : '';
 };
 
 var getInvalidWeekNumberError = exports.getInvalidWeekNumberError = function getInvalidWeekNumberError(state) {
@@ -101,10 +98,7 @@ var getInvalidWeekNumberError = exports.getInvalidWeekNumberError = function get
         year = _asInts4[0],
         week = _asInts4[1];
 
-    if (isWeekNumberTooHigh(week, year)) {
-        return _d2I18n2.default.t('Week number too high for current year');
-    }
-    return null;
+    return isWeekNumberTooHigh(week, year) ? _d2I18n2.default.t('Week number too high for current year') : '';
 };
 
 var getInvalidBiWeekNumberError = exports.getInvalidBiWeekNumberError = function getInvalidBiWeekNumberError(state) {
@@ -114,9 +108,7 @@ var getInvalidBiWeekNumberError = exports.getInvalidBiWeekNumberError = function
         biWeek = _asInts6[1];
 
     var week = biWeek * 2 - 1;
-    if (isWeekNumberTooHigh(week, year)) {
-        return _d2I18n2.default.t('Bi-week number too high for current year');
-    }
+    return isWeekNumberTooHigh(week, year) ? _d2I18n2.default.t('Bi-week number too high for current year') : '';
 };
 
 var asInts = function asInts(state, propKeys) {

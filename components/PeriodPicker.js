@@ -120,30 +120,32 @@ var PeriodPicker = function (_PureComponent) {
 
             _this.setState({ periodType: target.value, errorText: '' });
         }, _this.onPeriodFieldChange = function (_ref3) {
+            var _this$setState2;
+
             var target = _ref3.target;
 
             _this.setState((0, _defineProperty3.default)({}, target.name, target.value));
-
+            var errorText = _this.state.errorText;
             var futureState = (0, _extends4.default)({}, _this.state, (0, _defineProperty3.default)({}, target.name, target.value));
             var periodType = _lookup2.default.get(futureState.periodType);
 
             if (periodType.hasRequiredValues(futureState)) {
-                var errorText = periodType.getError(futureState);
+                errorText = periodType.getError(futureState);
 
-                if (errorText) {
-                    _this.setState({ errorText: errorText });
-                } else {
+                if (!errorText) {
                     var periodId = periodType.getPeriodId(futureState);
 
                     try {
                         var period = (0, _parser2.default)(periodId);
-                        _this.setState({ errorText: '' });
+                        errorText = '';
                         _this.props.onChange(period.id);
                     } catch (error) {
-                        _this.setState({ errorText: error.message });
+                        errorText = error.message;
                     }
                 }
             }
+
+            _this.setState((_this$setState2 = {}, (0, _defineProperty3.default)(_this$setState2, target.name, target.value), (0, _defineProperty3.default)(_this$setState2, 'errorText', errorText), _this$setState2));
         }, _this.getValueForPeriodFieldType = function (type) {
             return _this.state[type];
         }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
