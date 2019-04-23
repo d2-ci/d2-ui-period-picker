@@ -113,14 +113,10 @@ var PeriodPicker = function (_PureComponent) {
             isLoading: true,
             periodType: '',
             errorText: ''
-        }, (0, _defineProperty3.default)(_this$state, _distinctTypes.DAY, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.QUARTER, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.SIX_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.YEAR, ''), _this$state), _this.api = _this.props.d2.Api.getApi(), _this.onPeriodTypeChange = function (_ref2) {
-            var target = _ref2.target;
-
-            _this.setState({ periodType: target.value, errorText: '' });
-        }, _this.onPeriodFieldChange = function (_ref3) {
+        }, (0, _defineProperty3.default)(_this$state, _distinctTypes.DAY, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.QUARTER, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.SIX_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.YEAR, ''), _this$state), _this.api = _this.props.d2.Api.getApi(), _this.onChange = function (_ref2) {
             var _this$setState2;
 
-            var target = _ref3.target;
+            var target = _ref2.target;
 
             _this.setState((0, _defineProperty3.default)({}, target.name, target.value));
             var errorText = _this.state.errorText;
@@ -135,6 +131,7 @@ var PeriodPicker = function (_PureComponent) {
 
                     try {
                         var period = (0, _parser2.default)(periodId);
+                        // All is well: proceed
                         errorText = '';
                         _this.props.onChange(period.id);
                     } catch (error) {
@@ -152,7 +149,7 @@ var PeriodPicker = function (_PureComponent) {
     (0, _createClass3.default)(PeriodPicker, [{
         key: 'componentDidMount',
         value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
                 var errorText;
                 return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -190,7 +187,7 @@ var PeriodPicker = function (_PureComponent) {
             }));
 
             function componentDidMount() {
-                return _ref4.apply(this, arguments);
+                return _ref3.apply(this, arguments);
             }
 
             return componentDidMount;
@@ -205,7 +202,7 @@ var PeriodPicker = function (_PureComponent) {
     }, {
         key: 'fetchPeriodTypes',
         value: function () {
-            var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
+            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
                 var response;
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                     while (1) {
@@ -217,8 +214,8 @@ var PeriodPicker = function (_PureComponent) {
                             case 2:
                                 response = _context2.sent;
 
-                                periodTypes = response.periodTypes.reduce(function (acc, _ref6) {
-                                    var name = _ref6.name;
+                                periodTypes = response.periodTypes.reduce(function (acc, _ref5) {
+                                    var name = _ref5.name;
 
                                     var supportedPeriod = _lookup2.default.get(name);
                                     if (supportedPeriod) {
@@ -237,7 +234,7 @@ var PeriodPicker = function (_PureComponent) {
             }));
 
             function fetchPeriodTypes() {
-                return _ref5.apply(this, arguments);
+                return _ref4.apply(this, arguments);
             }
 
             return fetchPeriodTypes;
@@ -286,8 +283,7 @@ var PeriodPicker = function (_PureComponent) {
                 this.state.isLoading ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(_Form2.default, {
                     periodTypes: periodTypes,
                     periodType: this.state.periodType,
-                    onPeriodTypeChange: this.onPeriodTypeChange,
-                    onPeriodFieldChange: this.onPeriodFieldChange,
+                    onChange: this.onChange,
                     getFieldValue: this.getValueForPeriodFieldType,
                     errorText: this.state.errorText,
                     value: this.props.value

@@ -50,8 +50,7 @@ var styles = function styles(theme) {
 var Form = function Form(_ref) {
     var periodTypes = _ref.periodTypes,
         periodType = _ref.periodType,
-        onPeriodTypeChange = _ref.onPeriodTypeChange,
-        onPeriodFieldChange = _ref.onPeriodFieldChange,
+        onChange = _ref.onChange,
         getFieldValue = _ref.getFieldValue,
         errorText = _ref.errorText,
         value = _ref.value,
@@ -63,12 +62,12 @@ var Form = function Form(_ref) {
             name: 'periodType',
             label: _d2I18n2.default.t('Period type'),
             value: periodType,
-            onChange: onPeriodTypeChange,
+            onChange: onChange,
             options: periodTypes
         }),
         periodType && _react2.default.createElement(_PeriodFields2.default, {
             periodType: periodType,
-            onChange: onPeriodFieldChange,
+            onChange: onChange,
             getValue: getFieldValue
         }),
         errorText && _react2.default.createElement(
@@ -87,8 +86,7 @@ var Form = function Form(_ref) {
 Form.propTypes = {
     periodTypes: _propTypes2.default.object.isRequired,
     periodType: _propTypes2.default.string.isRequired,
-    onPeriodTypeChange: _propTypes2.default.func.isRequired,
-    onPeriodFieldChange: _propTypes2.default.func.isRequired,
+    onChange: _propTypes2.default.func.isRequired,
     getFieldValue: _propTypes2.default.func.isRequired,
     errorText: _propTypes2.default.string.isRequired,
     value: _propTypes2.default.string.isRequired,
