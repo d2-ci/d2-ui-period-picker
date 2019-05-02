@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.Form = undefined;
 
 var _d2I18n = require('@dhis2/d2-i18n');
 
@@ -47,7 +48,7 @@ var styles = function styles(theme) {
     };
 };
 
-var Form = function Form(_ref) {
+var Form = exports.Form = function Form(_ref) {
     var periodTypes = _ref.periodTypes,
         periodType = _ref.periodType,
         onChange = _ref.onChange,
@@ -84,7 +85,7 @@ var Form = function Form(_ref) {
 };
 
 Form.propTypes = {
-    periodTypes: _propTypes2.default.object.isRequired,
+    periodTypes: _propTypes2.default.array,
     periodType: _propTypes2.default.string.isRequired,
     onChange: _propTypes2.default.func.isRequired,
     getFieldValue: _propTypes2.default.func.isRequired,

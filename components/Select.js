@@ -3,10 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
+exports.Select = undefined;
 
 var _FormControl = require('@material-ui/core/FormControl');
 
@@ -45,7 +42,7 @@ var styles = function styles(theme) {
     };
 };
 
-var Select = function Select(_ref) {
+var Select = exports.Select = function Select(_ref) {
     var name = _ref.name,
         label = _ref.label,
         value = _ref.value,
@@ -71,11 +68,13 @@ var Select = function Select(_ref) {
                     id: name
                 }
             },
-            (0, _keys2.default)(options).map(function (key) {
+            options.map(function (_ref2) {
+                var value = _ref2.value,
+                    label = _ref2.label;
                 return _react2.default.createElement(
                     _MenuItem2.default,
-                    { key: key, value: key },
-                    options[key]
+                    { key: value, value: value },
+                    label
                 );
             })
         )
@@ -87,7 +86,7 @@ Select.propTypes = {
     label: _propTypes2.default.string.isRequired,
     value: _propTypes2.default.string,
     onChange: _propTypes2.default.func.isRequired,
-    options: _propTypes2.default.object.isRequired,
+    options: _propTypes2.default.array.isRequired,
     classes: _propTypes2.default.object.isRequired
 };
 

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.Loader = undefined;
 
 var _core = require('@material-ui/core');
 
@@ -27,7 +28,7 @@ var styles = function styles() {
     };
 };
 
-var Loader = function Loader(_ref) {
+var Loader = exports.Loader = function Loader(_ref) {
     var classes = _ref.classes;
 
     return _react2.default.createElement(

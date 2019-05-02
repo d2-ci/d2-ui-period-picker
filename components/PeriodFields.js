@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.PeriodFields = undefined;
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -37,7 +38,7 @@ var styles = function styles(theme) {
     };
 };
 
-var PeriodFields = function PeriodFields(_ref) {
+var PeriodFields = exports.PeriodFields = function PeriodFields(_ref) {
     var periodType = _ref.periodType,
         onChange = _ref.onChange,
         getValue = _ref.getValue,

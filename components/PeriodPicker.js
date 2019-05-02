@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.PeriodPicker = exports.periodTypes = exports.PERIOD_TYPES_ENDPOINT = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -78,6 +79,8 @@ var _Loader2 = _interopRequireDefault(_Loader);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var PERIOD_TYPES_ENDPOINT = exports.PERIOD_TYPES_ENDPOINT = 'periodTypes';
+
 var styles = function styles(theme) {
     return {
         label: {
@@ -93,9 +96,9 @@ var styles = function styles(theme) {
 
 // Period types can be cached for the entire app lifecycle
 // because they won't change
-var periodTypes = void 0;
+var periodTypes = exports.periodTypes = void 0;
 
-var PeriodPicker = function (_PureComponent) {
+var PeriodPicker = exports.PeriodPicker = function (_PureComponent) {
     (0, _inherits3.default)(PeriodPicker, _PureComponent);
 
     function PeriodPicker() {
@@ -156,7 +159,7 @@ var PeriodPicker = function (_PureComponent) {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 if (periodTypes) {
-                                    _context.next = 12;
+                                    _context.next = 14;
                                     break;
                                 }
 
@@ -179,6 +182,13 @@ var PeriodPicker = function (_PureComponent) {
                                 this.setState({ errorText: errorText, isLoading: false });
 
                             case 12:
+                                _context.next = 15;
+                                break;
+
+                            case 14:
+                                this.updateStateFromPeriodId();
+
+                            case 15:
                             case 'end':
                                 return _context.stop();
                         }
@@ -209,20 +219,20 @@ var PeriodPicker = function (_PureComponent) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
                                 _context2.next = 2;
-                                return this.api.get('periodTypes');
+                                return this.api.get(PERIOD_TYPES_ENDPOINT);
 
                             case 2:
                                 response = _context2.sent;
 
-                                periodTypes = response.periodTypes.reduce(function (acc, _ref5) {
+                                exports.periodTypes = periodTypes = response.periodTypes.reduce(function (acc, _ref5) {
                                     var name = _ref5.name;
 
                                     var supportedPeriod = _lookup2.default.get(name);
                                     if (supportedPeriod) {
-                                        acc[name] = supportedPeriod.label;
+                                        acc.push({ label: supportedPeriod.label, value: name });
                                     }
                                     return acc;
-                                }, {});
+                                }, []);
                                 (0, _checkForUnsupportedPeriodTypes2.default)(response.periodTypes);
 
                             case 5:
@@ -263,11 +273,6 @@ var PeriodPicker = function (_PureComponent) {
                 errorText: errorText,
                 isLoading: false
             }, periodFieldsUpdateObject));
-        }
-    }, {
-        key: 'renderFormFields',
-        value: function renderFormFields() {
-            return;
         }
     }, {
         key: 'render',
