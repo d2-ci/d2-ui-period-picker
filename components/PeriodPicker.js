@@ -3,23 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.PeriodPicker = exports.periodTypes = exports.PERIOD_TYPES_ENDPOINT = undefined;
+exports.PeriodPicker = exports.SHIFT_YEARS_FORTH = exports.SHIFT_YEARS_BACK = undefined;
 
-var _regenerator = require('babel-runtime/regenerator');
+var _keys = require('babel-runtime/core-js/object/keys');
 
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _extends3 = require('babel-runtime/helpers/extends');
-
-var _extends4 = _interopRequireDefault(_extends3);
+var _keys2 = _interopRequireDefault(_keys);
 
 var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _extends3 = require('babel-runtime/helpers/extends');
+
+var _extends4 = _interopRequireDefault(_extends3);
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -59,27 +55,24 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _checkForUnsupportedPeriodTypes = require('../periodTypes/checkForUnsupportedPeriodTypes');
+var _helpers = require('../modules/helpers');
 
-var _checkForUnsupportedPeriodTypes2 = _interopRequireDefault(_checkForUnsupportedPeriodTypes);
+var _distinctTypes = require('../modules/distinctTypes');
 
-var _distinctTypes = require('../periodTypes/distinctTypes');
+var _PeriodTypes = require('../modules/PeriodTypes');
 
-var _lookup = require('../periodTypes/lookup');
+var _PeriodTypes2 = _interopRequireDefault(_PeriodTypes);
 
-var _lookup2 = _interopRequireDefault(_lookup);
+var _Select = require('./Select');
 
-var _Form = require('./Form');
+var _Select2 = _interopRequireDefault(_Select);
 
-var _Form2 = _interopRequireDefault(_Form);
-
-var _Loader = require('./Loader');
-
-var _Loader2 = _interopRequireDefault(_Loader);
+var _core = require('@material-ui/core');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PERIOD_TYPES_ENDPOINT = exports.PERIOD_TYPES_ENDPOINT = 'periodTypes';
+var SHIFT_YEARS_BACK = exports.SHIFT_YEARS_BACK = 'SHIFT_YEARS_BACK';
+var SHIFT_YEARS_FORTH = exports.SHIFT_YEARS_FORTH = 'SHIFT_YEARS_FORTH';
 
 var styles = function styles(theme) {
     return {
@@ -90,118 +83,103 @@ var styles = function styles(theme) {
             padding: '16px 8px 0px',
             margin: '0px',
             flex: '1 0 120px'
+        },
+        flexContainer: {
+            display: 'flex',
+            marginRight: -16
+        },
+        error: {
+            color: theme.colors.negative,
+            margin: 8
         }
     };
 };
 
-// Period types can be cached for the entire app lifecycle
-// because they won't change
-var periodTypes = exports.periodTypes = void 0;
-
 var PeriodPicker = exports.PeriodPicker = function (_PureComponent) {
     (0, _inherits3.default)(PeriodPicker, _PureComponent);
 
-    function PeriodPicker() {
-        var _ref, _this$state;
-
-        var _temp, _this, _ret;
+    function PeriodPicker(props) {
+        var _this$state;
 
         (0, _classCallCheck3.default)(this, PeriodPicker);
 
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
+        var _this = (0, _possibleConstructorReturn3.default)(this, (PeriodPicker.__proto__ || (0, _getPrototypeOf2.default)(PeriodPicker)).call(this, props));
 
-        return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = PeriodPicker.__proto__ || (0, _getPrototypeOf2.default)(PeriodPicker)).call.apply(_ref, [this].concat(args))), _this), _this.state = (_this$state = {
-            isLoading: true,
-            periodType: '',
-            errorText: ''
-        }, (0, _defineProperty3.default)(_this$state, _distinctTypes.DAY, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.QUARTER, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.SIX_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.YEAR, ''), _this$state), _this.api = _this.props.d2.Api.getApi(), _this.onChange = function (_ref2) {
-            var _this$setState2;
+        _this.onChange = function (_ref, component) {
+            var target = _ref.target;
 
-            var target = _ref2.target;
-
-            _this.setState((0, _defineProperty3.default)({}, target.name, target.value));
-            var errorText = _this.state.errorText;
-            var futureState = (0, _extends4.default)({}, _this.state, (0, _defineProperty3.default)({}, target.name, target.value));
-            var periodType = _lookup2.default.get(futureState.periodType);
-
-            if (periodType.hasRequiredValues(futureState)) {
-                errorText = periodType.getError(futureState);
-
-                if (!errorText) {
-                    var periodId = periodType.getPeriodId(futureState);
-
-                    try {
-                        var period = (0, _parser2.default)(periodId);
-                        // All is well: proceed
-                        errorText = '';
-                        _this.props.onChange(period.id);
-                    } catch (error) {
-                        errorText = error.message;
-                    }
-                }
+            if (_this.isYearShiftElement(target)) {
+                _this.shiftYears(target.value);
+                return;
             }
 
-            _this.setState((_this$setState2 = {}, (0, _defineProperty3.default)(_this$setState2, target.name, target.value), (0, _defineProperty3.default)(_this$setState2, 'errorText', errorText), _this$setState2));
-        }, _this.getValueForPeriodFieldType = function (type) {
-            return _this.state[type];
-        }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+            var state = (0, _extends4.default)({}, _this.state, (0, _defineProperty3.default)({}, target.name, target.value));
+            var periodId = component.props['period-id'] || _this.findActivePeriodId(state, target.name);
+
+            if (periodId) {
+                _this.props.onChange(periodId);
+            } else {
+                var _this$setState;
+
+                _this.setState((_this$setState = {}, (0, _defineProperty3.default)(_this$setState, target.name, target.value), (0, _defineProperty3.default)(_this$setState, 'yearFieldOpen', false), _this$setState));
+            }
+        };
+
+        _this.onYearFieldOpen = function () {
+            _this.setState({ yearFieldOpen: true });
+        };
+
+        _this.onYearFieldClose = function (_ref2) {
+            var target = _ref2.target;
+
+            var yearFieldOpen = _this.isYearShiftElement(target);
+            var hasEmptyYearValue = !_this.state[_distinctTypes.YEAR];
+            var isBackdropClick = target.getAttribute('role') !== 'option';
+
+            _this.setState({ yearFieldOpen: yearFieldOpen });
+
+            if (isBackdropClick && hasEmptyYearValue) {
+                // initially the clicked element is the activeElement
+                // but on the next tick, the Select itself will have focus
+                // which looks weird when no value is selected because
+                // of the floating label. So in that case we blur it.
+                setTimeout(function () {
+                    document.activeElement.blur();
+                }, 0);
+            }
+        };
+
+        var locale = props.d2.currentUser.userSettings.get('keyUiLocale');
+        var pt = new _PeriodTypes2.default(locale);
+
+        _this.periodTypeOptions = pt.getPeriodTypes();
+        _this.getPeriodType = pt.getPeriodType.bind(pt);
+        _this.getFields = pt.getFields.bind(pt);
+        _this.getFieldUpdateObject = pt.getFieldUpdateObject.bind(pt);
+        _this.findActivePeriodId = pt.findActivePeriodId.bind(pt);
+
+        _this.state = (_this$state = {
+            periodType: '',
+            errorText: '',
+            yearFieldOpen: false,
+            yearOffset: 0
+        }, (0, _defineProperty3.default)(_this$state, _distinctTypes.DAY, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_WEEK, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.BI_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.QUARTER, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.SIX_MONTH, ''), (0, _defineProperty3.default)(_this$state, _distinctTypes.YEAR, ''), _this$state);
+        return _this;
     }
 
     (0, _createClass3.default)(PeriodPicker, [{
+        key: 'isYearShiftElement',
+        value: function isYearShiftElement(target) {
+            var value = target.value || target.getAttribute('data-value');
+            return value === SHIFT_YEARS_BACK || value === SHIFT_YEARS_FORTH;
+        }
+    }, {
         key: 'componentDidMount',
-        value: function () {
-            var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-                var errorText;
-                return _regenerator2.default.wrap(function _callee$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                if (periodTypes) {
-                                    _context.next = 14;
-                                    break;
-                                }
-
-                                _context.prev = 1;
-                                _context.next = 4;
-                                return this.fetchPeriodTypes();
-
-                            case 4:
-                                this.updateStateFromPeriodId();
-                                _context.next = 12;
-                                break;
-
-                            case 7:
-                                _context.prev = 7;
-                                _context.t0 = _context['catch'](1);
-
-                                console.error(_context.t0);
-                                errorText = _d2I18n2.default.t('Could not load period types');
-
-                                this.setState({ errorText: errorText, isLoading: false });
-
-                            case 12:
-                                _context.next = 15;
-                                break;
-
-                            case 14:
-                                this.updateStateFromPeriodId();
-
-                            case 15:
-                            case 'end':
-                                return _context.stop();
-                        }
-                    }
-                }, _callee, this, [[1, 7]]);
-            }));
-
-            function componentDidMount() {
-                return _ref3.apply(this, arguments);
-            }
-
-            return componentDidMount;
-        }()
+        value: function componentDidMount() {
+            // This only does something in development
+            (0, _helpers.checkForUnsupportedPeriodTypes)(this.props.d2, this.getPeriodType);
+            this.updateStateFromPeriodId();
+        }
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate(prevProps) {
@@ -210,45 +188,12 @@ var PeriodPicker = exports.PeriodPicker = function (_PureComponent) {
             }
         }
     }, {
-        key: 'fetchPeriodTypes',
-        value: function () {
-            var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2() {
-                var response;
-                return _regenerator2.default.wrap(function _callee2$(_context2) {
-                    while (1) {
-                        switch (_context2.prev = _context2.next) {
-                            case 0:
-                                _context2.next = 2;
-                                return this.api.get(PERIOD_TYPES_ENDPOINT);
-
-                            case 2:
-                                response = _context2.sent;
-
-                                exports.periodTypes = periodTypes = response.periodTypes.reduce(function (acc, _ref5) {
-                                    var name = _ref5.name;
-
-                                    var supportedPeriod = _lookup2.default.get(name);
-                                    if (supportedPeriod) {
-                                        acc.push({ label: supportedPeriod.label, value: name });
-                                    }
-                                    return acc;
-                                }, []);
-                                (0, _checkForUnsupportedPeriodTypes2.default)(response.periodTypes);
-
-                            case 5:
-                            case 'end':
-                                return _context2.stop();
-                        }
-                    }
-                }, _callee2, this);
-            }));
-
-            function fetchPeriodTypes() {
-                return _ref4.apply(this, arguments);
-            }
-
-            return fetchPeriodTypes;
-        }()
+        key: 'shiftYears',
+        value: function shiftYears(value) {
+            var relativeOffset = value === SHIFT_YEARS_BACK ? -1 : 1;
+            var yearOffset = this.state.yearOffset + relativeOffset;
+            this.setState({ yearOffset: yearOffset, year: '' });
+        }
     }, {
         key: 'updateStateFromPeriodId',
         value: function updateStateFromPeriodId() {
@@ -261,7 +206,8 @@ var PeriodPicker = exports.PeriodPicker = function (_PureComponent) {
                 try {
                     var period = (0, _parser2.default)(periodId);
                     periodType = period.type;
-                    periodFieldsUpdateObject = _lookup2.default.get(periodType).createPeriodFieldUpdater(period.id, period.startDate);
+                    errorText = '';
+                    periodFieldsUpdateObject = this.getFieldUpdateObject(period);
                 } catch (error) {
                     // This should only be triggered when an invalid value is set via props
                     console.error(error);
@@ -271,12 +217,16 @@ var PeriodPicker = exports.PeriodPicker = function (_PureComponent) {
             this.setState((0, _extends4.default)({
                 periodType: periodType,
                 errorText: errorText,
-                isLoading: false
+                yearFieldOpen: false
             }, periodFieldsUpdateObject));
         }
     }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
+            var fields = this.getFields(this.state);
+
             return _react2.default.createElement(
                 _react.Fragment,
                 null,
@@ -285,14 +235,35 @@ var PeriodPicker = exports.PeriodPicker = function (_PureComponent) {
                     { className: this.props.classes.label },
                     this.props.label
                 ),
-                this.state.isLoading ? _react2.default.createElement(_Loader2.default, null) : _react2.default.createElement(_Form2.default, {
-                    periodTypes: periodTypes,
-                    periodType: this.state.periodType,
+                _react2.default.createElement(_Select2.default, {
+                    name: 'periodType',
+                    label: _d2I18n2.default.t('Period type'),
+                    value: this.state.periodType,
                     onChange: this.onChange,
-                    getFieldValue: this.getValueForPeriodFieldType,
-                    errorText: this.state.errorText,
-                    value: this.props.value
-                })
+                    options: this.periodTypeOptions
+                }),
+                this.state.periodType && _react2.default.createElement(
+                    'div',
+                    { className: this.props.classes.flexContainer },
+                    (0, _keys2.default)(fields).map(function (key) {
+                        return _react2.default.createElement(_Select2.default, {
+                            key: fields[key].name,
+                            name: fields[key].name,
+                            label: fields[key].label,
+                            value: _this2.state[fields[key].name],
+                            onChange: _this2.onChange,
+                            options: fields[key].options,
+                            yearFieldOpen: _this2.state.yearFieldOpen,
+                            onYearOpen: _this2.onYearFieldOpen,
+                            onYearClose: _this2.onYearFieldClose
+                        });
+                    })
+                ),
+                this.state.errorText && _react2.default.createElement(
+                    _core.FormHelperText,
+                    { className: '' + this.props.classes.error },
+                    this.state.errorText
+                )
             );
         }
     }]);

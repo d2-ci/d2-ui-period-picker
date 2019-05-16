@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Select = undefined;
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _FormControl = require('@material-ui/core/FormControl');
 
 var _FormControl2 = _interopRequireDefault(_FormControl);
@@ -31,6 +35,18 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _distinctTypes = require('../modules/distinctTypes');
+
+var _PeriodPicker = require('./PeriodPicker');
+
+var _KeyboardArrowDown = require('@material-ui/icons/KeyboardArrowDown');
+
+var _KeyboardArrowDown2 = _interopRequireDefault(_KeyboardArrowDown);
+
+var _KeyboardArrowUp = require('@material-ui/icons/KeyboardArrowUp');
+
+var _KeyboardArrowUp2 = _interopRequireDefault(_KeyboardArrowUp);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var styles = function styles(theme) {
@@ -38,6 +54,9 @@ var styles = function styles(theme) {
         formControl: {
             margin: theme.spacing.unit,
             width: '100%'
+        },
+        eventLess: {
+            pointerEvents: 'none'
         }
     };
 };
@@ -48,7 +67,18 @@ var Select = exports.Select = function Select(_ref) {
         value = _ref.value,
         onChange = _ref.onChange,
         options = _ref.options,
-        classes = _ref.classes;
+        classes = _ref.classes,
+        yearFieldOpen = _ref.yearFieldOpen,
+        onYearOpen = _ref.onYearOpen,
+        onYearClose = _ref.onYearClose;
+
+    var isYearField = name === _distinctTypes.YEAR;
+    var yearFieldProps = isYearField ? {
+        open: yearFieldOpen,
+        onOpen: onYearOpen,
+        onClose: onYearClose // just keep it open
+    } : {};
+
     return _react2.default.createElement(
         _FormControl2.default,
         { className: classes.formControl },
@@ -59,24 +89,36 @@ var Select = exports.Select = function Select(_ref) {
         ),
         _react2.default.createElement(
             _Select2.default,
-            {
+            (0, _extends3.default)({
                 value: value,
                 onChange: onChange,
                 autoWidth: true,
                 inputProps: {
                     name: name,
                     id: name
-                }
-            },
+                },
+                disabled: options.length === 0
+            }, yearFieldProps),
+            isYearField && _react2.default.createElement(
+                _MenuItem2.default,
+                { key: _PeriodPicker.SHIFT_YEARS_BACK, value: _PeriodPicker.SHIFT_YEARS_BACK },
+                _react2.default.createElement(_KeyboardArrowUp2.default, { className: classes.eventLess })
+            ),
             options.map(function (_ref2) {
                 var value = _ref2.value,
-                    label = _ref2.label;
+                    label = _ref2.label,
+                    id = _ref2.id;
                 return _react2.default.createElement(
                     _MenuItem2.default,
-                    { key: value, value: value },
+                    { key: value, value: value, 'period-id': id },
                     label
                 );
-            })
+            }),
+            isYearField && _react2.default.createElement(
+                _MenuItem2.default,
+                { key: _PeriodPicker.SHIFT_YEARS_FORTH, value: _PeriodPicker.SHIFT_YEARS_FORTH },
+                _react2.default.createElement(_KeyboardArrowDown2.default, { className: classes.eventLess })
+            )
         )
     );
 };
@@ -87,6 +129,9 @@ Select.propTypes = {
     value: _propTypes2.default.string,
     onChange: _propTypes2.default.func.isRequired,
     options: _propTypes2.default.array.isRequired,
+    yearFieldOpen: _propTypes2.default.bool,
+    onYearOpen: _propTypes2.default.func,
+    onYearClose: _propTypes2.default.func,
     classes: _propTypes2.default.object.isRequired
 };
 
